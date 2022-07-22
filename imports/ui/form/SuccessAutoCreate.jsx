@@ -1,30 +1,31 @@
 import React from 'react';
-import { HTMLFieldProps, connectField } from 'uniforms';
-
+import { connectField } from 'uniforms';
+import Chip from '@mui/material/Chip';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
 
 function SuccessAutoCreate({ onChange, value }) {
   return (
-    <div className="ImageField">
-      <label htmlFor="file-input">
-        <div>Choose your photo</div>
-        <img
-          alt=""
-          style={{ cursor: 'pointer', width: '150px', height: '150px' }}
-          src={value || 'https://picsum.photos/150?grayscale'}
+    <Autocomplete
+    multiple
+    id="tags-outlined"
+    options={[]}
+    defaultValue={[]}
+    freeSolo
+    renderTags={(value, getTagProps) =>
+        value.map((option, index) => (
+            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+        ))
+    }
+    renderInput={(params) => (
+        <TextField
+            {...params}
+            label="freeSolo"
+            placeholder="Favorites"
         />
-      </label>
-      <input
-        accept="image/*"
-        id="file-input"
-        onChange={({ target: { files } }) => {
-          if (files && files[0]) {
-            onChange(URL.createObjectURL(files[0]));
-          }
-        }}
-        style={{ display: 'none' }}
-        type="file"
-      />
-    </div>
+    )}
+/>
   );
 }
 
