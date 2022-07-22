@@ -1,16 +1,13 @@
 import React from 'react';
-import { Hello } from './Hello.jsx';
-import { Info } from './Info.jsx';
-import { PeopleList } from './PeopleList.jsx'; 
-import { PersonAddForm } from './PersonAddForm'; 
+import { Outlet } from "react-router-dom";
 
 
-export const App = () => (
-  <div>
-    <h1>Welcome to Meteor!</h1>
-    <Hello/>
-    <Info/>
-    <PeopleList />
-    <PersonAddForm />
-  </div>
-);
+export const App = () => {
+  return (
+    <div>
+      <h1>Be Success</h1>
+      <hr />
+      <Outlet />
+    </div>
+  );
+};

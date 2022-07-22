@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'simpl-schema/dist/SimpleSchema';
-import SimpleSchemaBridge from 'uniforms-bridge-simple-schema-2';
+import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 
 export const People = new Mongo.Collection('people');
 const PeopleSchema = new SimpleSchema({
@@ -15,6 +15,7 @@ const PeopleSchema = new SimpleSchema({
     lastContact: {
         type: Date,
         label: "Last Contacted",
+        defaultValue: new Date(),
         uniforms: {
             type: 'date'
         }
@@ -27,4 +28,4 @@ const PeopleSchema = new SimpleSchema({
     "log.$.note": String,
 })
 People.attachSchema(PeopleSchema);
-export const PeopleBridge = new SimpleSchemaBridge(PeopleSchema)
+export const PeopleBridge = new SimpleSchema2Bridge(PeopleSchema)

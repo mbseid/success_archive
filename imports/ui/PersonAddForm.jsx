@@ -1,5 +1,5 @@
 import React from 'react';
-import { AutoForm } from 'uniforms-material';
+import { AutoForm } from 'uniforms-mui';
 
 import { PeopleBridge as schema } from '/imports/api/person';
 
