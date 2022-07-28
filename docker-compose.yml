@@ -2,20 +2,23 @@ version: "3.7"
 
 services:
   success:
-    build: .
-
+    image: "ghcr.io/mbseid/success:main"
     ports:
-      - 3117:3000
-      
+      - 3117:3117
     environment:
       NODE_ENV: production
       ROOT_URL: http://localhost
-      PORT: 3000
+      PORT: 3117
       MONGO_URL: 'mongodb://success:success@mongo:27017'
 
   mongo:
     image: mongo
     restart: always
+    volumes:
+      - success-data:/data/db 
     environment:
       MONGO_INITDB_ROOT_USERNAME: success
       MONGO_INITDB_ROOT_PASSWORD: success
+
+volumes:
+  success-data:

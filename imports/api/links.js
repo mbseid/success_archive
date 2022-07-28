@@ -1,8 +1,13 @@
 import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor'
 import { SimpleSchema } from 'simpl-schema/dist/SimpleSchema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 
 export const Links = new Mongo.Collection('links');
+Links.distinct = async (field) => {
+  console.log('hi');
+  return [1]
+}
 
 const LinkSchema = new SimpleSchema({
     url: {

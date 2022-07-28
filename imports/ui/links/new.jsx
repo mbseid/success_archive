@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui';
 import { LinkBridge as schema } from '/imports/api/links';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
+import { useTracker } from 'meteor/react-meteor-data';
 import { Links } from '/imports/api/links';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export const NewLink = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [tags, setTags] = useState([]);
+    const [tagList, setTagList] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        Meteor.call('links.distinctTags', {}, (err, res) => {
+            setTagList(res)
+        })
+    })
+
+    const prefilledModel = {
+        title: searchParams.get('title') || "",
+        url: searchParams.get('url') || "",
+        description: searchParams.get('description') || ""
+    }
 
     const handleSubmit = (value) => {
         const link = {
@@ -23,17 +37,19 @@ export const NewLink = () => {
 
     return (
         <div>
-            <AutoForm schema={schema} onSubmit={handleSubmit}>
+            <AutoForm schema={schema} 
+                        model={prefilledModel}
+                        onSubmit={handleSubmit}>
                 <AutoField name="title" />
                 <AutoField name="url" />
                 <AutoField name="description" />
                 <Autocomplete
                     multiple
                     value={tags}
-                    onChange={(event, newTags) => setTags([])}
+                    onChange={(event, newTags) => setTags(newTags)}
                     id="tags-outlined"
                     sx={{ marginTop: '8px', marginBottom: '8px' }}
-                    options={[]}
+                    options={tagList}
                     defaultValue={[]}
                     freeSolo
                     renderTags={(value, getTagProps) =>

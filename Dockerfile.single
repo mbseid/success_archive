@@ -1,0 +1,26 @@
+FROM mongo:5
+
+WORKDIR /usr/src/app
+
+RUN apt-get update
+
+RUN apt-get install -y curl
+
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sh
+
+RUN apt-get install nodejs
+
+RUN curl https://install.meteor.com/ | sh
+
+COPY . .
+
+RUN npm install --production
+
+RUN meteor build . --directory --architecture os.linux.x86_64 --allow-superuser
+
+RUN cd bundle/programs/server && npm install
+
+RUN mongod --fork --logpath /var/log/mongodb/mongod.log
+
+CMD ["node", "bundle/main.js"]
+

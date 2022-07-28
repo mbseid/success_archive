@@ -27,11 +27,10 @@ export function LinkList(){
             <li>
                 <a href={link.url}>
                     <h2>{link.title}</h2>
-                    {link.tags && 
-                      <p>{link.tags.map(tag => `#{tag}`).join(" ")}</p>
-                    }
-                    
                 </a>
+                {link.tags && 
+                  <p>{link.tags.map(tag => `#${tag}`).join(" ")}</p>
+                }
             </li>
         ))}
       </ul>
