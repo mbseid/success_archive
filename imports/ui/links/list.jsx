@@ -24,11 +24,11 @@ export function LinkList(){
                  id="standard-basic" label="Standard" variant="standard" />
       <ul>
         {links.map((link) => (
-            <li>
+            <li key={link._id}>
                 <a href={link.url}>
                     <h2>{link.title}</h2>
                 </a>
-                {link.tags && 
+                {link.tags &&
                   <p>{link.tags.map(tag => `#${tag}`).join(" ")}</p>
                 }
             </li>

@@ -18,7 +18,7 @@ export const NewLink = () => {
         Meteor.call('links.distinctTags', {}, (err, res) => {
             setTagList(res)
         })
-    })
+    }, [])
 
     const prefilledModel = {
         title: searchParams.get('title') || "",
@@ -37,7 +37,7 @@ export const NewLink = () => {
 
     return (
         <div>
-            <AutoForm schema={schema} 
+            <AutoForm schema={schema}
                         model={prefilledModel}
                         onSubmit={handleSubmit}>
                 <AutoField name="title" />
