@@ -37,6 +37,7 @@ export const NewLink = () => {
 
     return (
         <div>
+            <h2>Add Link</h2>
             <AutoForm schema={schema}
                         model={prefilledModel}
                         onSubmit={handleSubmit}>

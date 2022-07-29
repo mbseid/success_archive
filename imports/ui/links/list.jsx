@@ -2,6 +2,7 @@ import React, {useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Links } from '/imports/api/links';
 import TextField from '@mui/material/TextField';
+import { Link } from 'react-router-dom';
 
 export function LinkList(){
   const [searchQuery, setSearchQuery] = useState('')
@@ -18,7 +19,11 @@ export function LinkList(){
 
   return (
     <div>
+      <Link to="/links/new">
+        New Link
+      </Link>
       <h2>Links</h2>
+
       <TextField value={searchQuery}
                  onChange={(event) => setSearchQuery(event.target.value)}
                  id="standard-basic" label="Standard" variant="standard" />

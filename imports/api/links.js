@@ -2,6 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor'
 import { SimpleSchema } from 'simpl-schema/dist/SimpleSchema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
+import { LongTextField } from 'uniforms-mui';
 
 export const Links = new Mongo.Collection('links');
 Links.distinct = async (field) => {
@@ -21,7 +22,8 @@ const LinkSchema = new SimpleSchema({
     description: {
         type: String,
         label: "Description",
-        optional: true
+        optional: true,
+        uniforms: { component: LongTextField },
     },
     tags: {
       type: Array,
