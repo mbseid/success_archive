@@ -1,8 +1,9 @@
-version: "3.7"
+version: "3"
 
 services:
   success:
     image: "ghcr.io/mbseid/success:main"
+    restart: unless-stopped
     ports:
       - 3117:3117
     environment:
@@ -13,9 +14,9 @@ services:
 
   mongo:
     image: mongo
-    restart: always
+    restart: unless-stopped
     volumes:
-      - success-data:/data/db 
+      - success-data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: success
       MONGO_INITDB_ROOT_PASSWORD: success
