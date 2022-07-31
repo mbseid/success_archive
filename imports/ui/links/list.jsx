@@ -1,8 +1,15 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Links } from '/imports/api/links';
 import TextField from '@mui/material/TextField';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+// material
+import { Grid, Button, Container, Stack, Typography } from '@mui/material';
+// components
+import Page from '../components/Page';
+import Iconify from '../components/Iconify';
+import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '/imports/ui/components/link';
+import { LinkCard, LinksSearch, LinksSort } from '../components/link';
 
 export function LinkList(){
   const [searchQuery, setSearchQuery] = useState('')
@@ -18,27 +25,28 @@ export function LinkList(){
   }, [searchQuery]);
 
   return (
-    <div>
-      <Link to="/links/new">
-        New Link
-      </Link>
-      <h2>Links</h2>
+    <Page title="Links">
+      <Container>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" gutterBottom>
+            Links
+          </Typography>
+          <Button variant="contained" component={RouterLink} to="/links/new" startIcon={<Iconify icon="eva:plus-fill" />}>
+            New Link
+          </Button>
+        </Stack>
 
-      <TextField value={searchQuery}
-                 onChange={(event) => setSearchQuery(event.target.value)}
-                 id="standard-basic" label="Standard" variant="standard" />
-      <ul>
-        {links.map((link) => (
-            <li key={link._id}>
-                <a href={link.url}>
-                    <h2>{link.title}</h2>
-                </a>
-                {link.tags &&
-                  <p>{link.tags.map(tag => `#${tag}`).join(" ")}</p>
-                }
-            </li>
-        ))}
-      </ul>
-    </div>
+        <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+          <LinksSearch posts={links} />
+          <LinksSort options={[]} />
+        </Stack>
+
+        <Grid container spacing={3}>
+          {links.map((post, index) => (
+            <LinkCard key={post.id} post={post} />
+          ))}
+        </Grid>
+      </Container>
+    </Page>
   );
 }
