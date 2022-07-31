@@ -12,16 +12,19 @@ const navConfig = [
     title: 'Dashboard',
     path: '/',
     icon: getIcon('eva:pie-chart-2-fill'),
+    endMatch: true
   },
   {
     title: 'People',
     path: '/people',
     icon: getIcon('eva:people-fill'),
+    endMatch: false
   },
   {
     title: 'Links',
     path: '/links',
     icon: getIcon('eva:file-text-fill'),
+    endMatch: false
   },
 ];
 

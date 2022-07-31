@@ -7,6 +7,8 @@ import TextField from '@mui/material/TextField';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Links } from '/imports/api/links';
 import { useNavigate, useSearchParams } from "react-router-dom";
+import Page from '../components/Page';
+import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 
 export const NewLink = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -36,40 +38,47 @@ export const NewLink = () => {
     }
 
     return (
-        <div>
-            <h2>Add Link</h2>
+      <Page title="Add Link">
+        <Container>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+              Add Link
+            </Typography>
+          </Stack>
+          <Grid container>
             <AutoForm schema={schema}
-                        model={prefilledModel}
-                        onSubmit={handleSubmit}>
-                <AutoField name="title" />
-                <AutoField name="url" />
-                <AutoField name="description" />
-                <Autocomplete
-                    multiple
-                    value={tags}
-                    onChange={(event, newTags) => setTags(newTags)}
-                    id="tags-outlined"
-                    sx={{ marginTop: '8px', marginBottom: '8px' }}
-                    options={tagList}
-                    defaultValue={[]}
-                    freeSolo
-                    renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                        ))
-                    }
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label="Tags"
-                            placeholder="Tags"
-                        />
-                    )}
-                />
-                <ErrorsField />
-                <SubmitField />
-            </AutoForm>
-            {/* https://mui.com/material-ui/react-autocomplete/#multiple-values */}
-        </div>
+                          model={prefilledModel}
+                          onSubmit={handleSubmit}>
+                  <AutoField name="title" />
+                  <AutoField name="url" />
+                  <AutoField name="description" />
+                  <Autocomplete
+                      multiple
+                      value={tags}
+                      onChange={(event, newTags) => setTags(newTags)}
+                      id="tags-outlined"
+                      sx={{ marginTop: '8px', marginBottom: '8px' }}
+                      options={tagList}
+                      defaultValue={[]}
+                      freeSolo
+                      renderTags={(value, getTagProps) =>
+                          value.map((option, index) => (
+                              <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                          ))
+                      }
+                      renderInput={(params) => (
+                          <TextField
+                              {...params}
+                              label="Tags"
+                              placeholder="Tags"
+                          />
+                      )}
+                  />
+                  <ErrorsField />
+                  <SubmitField />
+              </AutoForm>
+          </Grid>
+        </Container>
+      </Page>
     );
 };

@@ -144,13 +144,15 @@ NavSection.propTypes = {
 export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
 
-  const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
+  const match = (endMatch) => {
+    return (path) => (path ? !!matchPath({ path, end: endMatch }, pathname) : false)
+  };
 
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
         {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} />
+          <NavItem key={item.title} item={item} active={match(item.endMatch)} />
         ))}
       </List>
     </Box>

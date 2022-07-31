@@ -8,7 +8,6 @@ import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '/imports/ui/components/link';
 import { LinkCard, LinksSearch, LinksSort } from '../components/link';
 
 export function LinkList(){
