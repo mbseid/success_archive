@@ -1,13 +1,41 @@
 import React from 'react';
 import { Outlet } from "react-router-dom";
-
+// @mui
+import { useTheme } from '@mui/material/styles';
+import { Grid, Container, Typography } from '@mui/material';
+// components
+import Page from './components/Page';
+import Iconify from './components/Iconify';
+import AppWidgetSummary from './dashboard/AppWidgetSummary';
 
 export const Index = () => {
+  const theme = useTheme();
+
   return (
-    <div>
-      <h1>Be Success</h1>
-      <hr />
-      <Outlet />
-    </div>
+    <Page title="Dashboard">
+      <Container maxWidth="xl">
+        <Typography variant="h4" sx={{ mb: 5 }}>
+          Hi, Welcome back
+        </Typography>
+
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Link Count" total={714000} icon={'ant-design:link-outlined'} />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Tag Count" total={1352831} color="info" icon={'ant-design:tag-filled'} />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+          </Grid>
+        </Grid>
+      </Container>
+    </Page>
   );
 };

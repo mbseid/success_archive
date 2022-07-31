@@ -11,6 +11,7 @@ export default function App() {
 
   // <BaseOptionChartStyle />
   return (
+
     <ThemeProvider>
       <Routes>
         <Route path="/" element={<DashboardLayout />}>
