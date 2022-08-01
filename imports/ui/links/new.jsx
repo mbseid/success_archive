@@ -21,11 +21,7 @@ export const NewLink = () => {
         description: searchParams.get('description') || ""
     }
 
-    const handleSubmit = (value) => {
-        const link = {
-            ...value,
-            tags: tags
-        }
+    const handleSubmit = (link) => {
         Links.insert(link)
         navigate("/links");
     }
