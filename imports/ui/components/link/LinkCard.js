@@ -11,6 +11,7 @@ import { fShortenNumber } from '/imports/ui/utils/formatNumber';
 //
 import SvgIconStyle from '/imports/ui/components/SvgIconStyle';
 import Iconify from '/imports/ui/components/Iconify';
+import EditMenu from '../EditMenu';
 
 // ----------------------------------------------------------------------
 
@@ -36,12 +37,18 @@ const AvatarStyle = styled(Avatar)(({ theme }) => ({
   bottom: theme.spacing(-2),
 }));
 
-const InfoStyle = styled('div')(({ theme }) => ({
+const TagStyle = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'flex-start',
+  marginTop: theme.spacing(3),
+  color: theme.palette.text.disabled,
+}));
+const EditStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'flex-end',
   marginTop: theme.spacing(3),
-  color: theme.palette.text.disabled,
 }));
 
 const CoverImgStyle = styled('img')({
@@ -52,17 +59,22 @@ const CoverImgStyle = styled('img')({
   position: 'absolute',
 });
 
+
 // ----------------------------------------------------------------------
 
 LinkCard.propTypes = {
-  post: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
   index: PropTypes.number,
 };
 
-export default function LinkCard({ post, large = false, latest = false }) {
-  let { title, description, tags, url } = post;
+export default function LinkCard({ item, large = false, latest = false }) {
+  let { _id, title, description, tags, url } = item;
   tags = tags || [];
   const cover = "";
+
+  const deleteAction = () => {
+    alert('not supported yet... Coming soon.')
+  }
 
   return (
     <Grid item xs={12} sm={large ? 12 : 6} md={large ? 6 : 3}>
@@ -156,7 +168,7 @@ export default function LinkCard({ post, large = false, latest = false }) {
               {description}
           </Typography>
 
-          <InfoStyle>
+          <TagStyle>
             {tags.map((tag, index) => (
               <Box
                 key={index}
@@ -173,7 +185,11 @@ export default function LinkCard({ post, large = false, latest = false }) {
                 <Typography variant="caption">{tag}</Typography>
               </Box>
             ))}
-          </InfoStyle>
+          </TagStyle>
+          <EditStyle>
+            <EditMenu editUrl={`/links/${_id}/edit`}
+                      deleteAction={deleteAction}/>
+          </EditStyle>
         </CardContent>
       </Card>
     </Grid>

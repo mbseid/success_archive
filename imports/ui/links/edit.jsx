@@ -4,43 +4,43 @@ import { LinkBridge as schema } from '/imports/api/links';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { useTracker } from 'meteor/react-meteor-data';
+import { useTracker, useSubscribe } from 'meteor/react-meteor-data';
 import { Links } from '/imports/api/links';
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Page from '../components/Page';
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 import LinkForm from './LinkForm';
 
-export const NewLink = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+export const EditLink = () => {
+    const params = useParams();
     const navigate = useNavigate();
 
-    const prefilledModel = {
-        title: searchParams.get('title') || "",
-        url: searchParams.get('url') || "",
-        description: searchParams.get('description') || ""
-    }
+    const model = useTracker(() => Links.findOne({_id: params.id}));
 
-    const handleSubmit = (value) => {
-        const link = {
-            ...value,
-            tags: tags
-        }
-        Links.insert(link)
+    const handleSubmit = (link) => {
+        Links.update(link._id, {
+          $set: {
+            title: link.title,
+            description: link.description,
+            tags: link.tags
+          }
+        })
         navigate("/links");
     }
 
     return (
-      <Page title="Add Link">
+      <Page title="Edit Link">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
-              Add Link
+              Edit Link
             </Typography>
           </Stack>
           <Grid container>
-            <LinkForm handleSubmit={handleSubmit}
-                      prefilledModel={prefilledModel} />
+            {model &&
+              <LinkForm handleSubmit={handleSubmit}
+                        prefilledModel={model} />
+            }
           </Grid>
         </Container>
       </Page>
