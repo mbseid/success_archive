@@ -5,10 +5,6 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { LongTextField } from 'uniforms-mui';
 
 export const Links = new Mongo.Collection('links');
-Links.distinct = async (field) => {
-  console.log('hi');
-  return [1]
-}
 
 const LinkSchema = new SimpleSchema({
     url: {
