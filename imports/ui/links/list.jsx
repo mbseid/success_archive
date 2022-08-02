@@ -45,7 +45,7 @@ export function LinkList(){
 
         <Grid container spacing={3}>
           {links.map((link) => (
-            <LinkCard key={link.id} item={link} />
+            <LinkCard key={link._id} item={link} />
           ))}
         </Grid>
       </Container>

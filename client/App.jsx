@@ -6,6 +6,7 @@ import { Links } from '../imports/ui/links';
 import { NewLink } from '../imports/ui/links/new';
 import { EditLink } from '../imports/ui/links/edit';
 import { LinkList } from '../imports/ui/links/list';
+import PeopleList from '../imports/ui/people/list';
 import DashboardLayout from "/imports/ui/layouts/dashboard/index"
 
 export default function App() {
@@ -22,6 +23,9 @@ export default function App() {
             <Route
               index
               element={<LinkList />} />
+          </Route>
+          <Route path="people">
+            <Route index element={<PeopleList />} />
           </Route>
           <Route
               index

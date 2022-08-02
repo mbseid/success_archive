@@ -12,13 +12,13 @@ const PeopleSchema = new SimpleSchema({
         type: String,
         label: 'Email',
     },
-    lastContact: {
-        type: Date,
-        label: "Last Contacted",
-        defaultValue: new Date(),
-        uniforms: {
-            type: 'date'
-        }
+    team: {
+      type: String,
+      label: 'Team',
+    },
+    role: {
+      type: String,
+      label: 'Role',
     },
     log: {
         type: Array,
