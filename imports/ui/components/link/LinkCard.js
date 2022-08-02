@@ -148,12 +148,11 @@ export default function LinkCard({ item, large = false, latest = false }) {
           */}
 
           <TitleStyle
-            to={url}
+            href={url}
             target="_blank"
             color="inherit"
             variant="subtitle2"
             underline="hover"
-            component={RouterLink}
             sx={{
               ...(large && { typography: 'h5', height: 60 }),
               ...((large || latest) && {
