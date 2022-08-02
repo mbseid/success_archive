@@ -17,7 +17,10 @@ export function LinkList(){
     let search = {}
     if(searchQuery != ''){
       search = {
-        title: {$regex : new RegExp(searchQuery, "i")}
+        $or: [
+          {title: {$regex : new RegExp(searchQuery, "i")}},
+          {'tags': {$regex : new RegExp(searchQuery, "i")}}
+        ]
       }
     }
     return Links.find(search).fetch();
@@ -36,8 +39,8 @@ export function LinkList(){
         </Stack>
 
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <LinksSearch posts={links} />
-          <LinksSort options={[]} />
+          <LinksSearch posts={links} setSearchQuery={setSearchQuery}/>
+          {/* <LinksSort options={[]} /> */}
         </Stack>
 
         <Grid container spacing={3}>

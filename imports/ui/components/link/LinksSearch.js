@@ -20,30 +20,19 @@ LinksSearch.propTypes = {
   posts: PropTypes.array.isRequired,
 };
 
-export default function LinksSearch({ posts }) {
+export default function LinksSearch({ tags, setSearchQuery }) {
   return (
-    <Autocomplete
+    <TextField
       sx={{ width: 280 }}
-      autoHighlight
-      popupIcon={null}
-      PopperComponent={PopperStyle}
-      options={posts}
-      getOptionLabel={(post) => post.title}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder="Search post..."
-          InputProps={{
-            ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify icon={'eva:search-fill'} sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-          }}
-        />
-      )}
+      onChange={(e) => setSearchQuery(e.target.value)}
+      placeholder="Search post..."
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <Iconify icon={'eva:search-fill'} sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }} />
+          </InputAdornment>
+        )
+      }}
     />
   );
 }
