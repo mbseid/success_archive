@@ -7,18 +7,22 @@ import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
   Card,
+  Box,
   Table,
   Stack,
   Avatar,
   Button,
   Checkbox,
   TableRow,
+  TableHead,
   TableBody,
   TableCell,
   Container,
   Typography,
+  TableSortLabel,
   TableContainer,
   TablePagination,
+  Link,
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -35,47 +39,65 @@ import { People } from '/imports/api/people';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
+  { id: 'team', label: 'Team', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
 
 // ----------------------------------------------------------------------
+const visuallyHidden = {
+  border: 0,
+  margin: -1,
+  padding: 0,
+  width: '1px',
+  height: '1px',
+  overflow: 'hidden',
+  position: 'absolute',
+  whiteSpace: 'nowrap',
+  clip: 'rect(0 0 0 0)',
+};
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
+function UserListHead({
+  order,
+  orderBy,
+  headLabel,
+  onRequestSort,
+}) {
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
 
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-  }
-  return stabilizedThis.map((el) => el[0]);
+  return (
+    <TableHead>
+      <TableRow>
+        {headLabel.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.alignRight ? 'right' : 'left'}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              hideSortIcon
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box sx={{ ...visuallyHidden }}>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
 }
 
 export default function PeopleList() {
 
   const [orderBy, setOrderBy] = useState('name');
+  const [order, setOrder] = useState('asc');
 
   const [searchQuery, setFilterName] = useState('');
 
@@ -91,7 +113,11 @@ export default function PeopleList() {
     return People.find(search).fetch();
   }, [searchQuery]);
 
-
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   return (
     <Page title="People">
@@ -100,7 +126,7 @@ export default function PeopleList() {
           <Typography variant="h4" gutterBottom>
             People
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button variant="contained" component={RouterLink} to="/people/new" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Person
           </Button>
         </Stack>
@@ -111,26 +137,24 @@ export default function PeopleList() {
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
+                <UserListHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={TABLE_HEAD}
+                    onRequestSort={handleRequestSort}
+                  />
                 <TableBody>
                   {people.map((person) => {
-                    const { _id, name, team, role } = row;
+                    const { _id, name, team, role } = person;
 
                     return (
                       <TableRow
-                        hover
                         key={_id}
-                        tabIndex={-1}
-                        role="checkbox"
-                        selected={isItemSelected}
-                        aria-checked={isItemSelected}
                       >
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            {/* <Avatar alt={name} src={avatarUrl} />*/}
-                            <Typography variant="subtitle2" noWrap>
-                              {name}
-                            </Typography>
-                          </Stack>
+                        <TableCell component="th" scope="row">
+                          <Link component={RouterLink} to={`/people/${_id}`}>
+                            {name}
+                          </Link>
                         </TableCell>
                         <TableCell align="left">{team}</TableCell>
                         <TableCell align="left">{role}</TableCell>

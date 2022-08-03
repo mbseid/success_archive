@@ -22,6 +22,7 @@ const PeopleSchema = new SimpleSchema({
     },
     log: {
         type: Array,
+        defaultValue: []
     },
     "log.$": Object,
     "log.$.date": Date,

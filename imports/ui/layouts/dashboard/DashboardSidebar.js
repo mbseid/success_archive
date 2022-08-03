@@ -70,10 +70,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar src={"account.photoURL"} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {"account.displayName"}
+                Mike Seid
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {"account.role"}
+                MLPA, Spotify
               </Typography>
             </Box>
           </AccountStyle>

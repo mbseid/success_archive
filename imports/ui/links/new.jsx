@@ -1,10 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui';
-import { LinkBridge as schema } from '/imports/api/links';
-import Chip from '@mui/material/Chip';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import { useTracker } from 'meteor/react-meteor-data';
 import { Links } from '/imports/api/links';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Page from '../components/Page';
