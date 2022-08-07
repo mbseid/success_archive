@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import Page from '../components/Page';
 import {
@@ -18,11 +18,15 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { People } from '/imports/api/people'
 
 import PropTypes from 'prop-types';
-// @mui
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import { useNavigate, useParams } from "react-router-dom";
+import { useTracker } from 'meteor/react-meteor-data';
+import { sortBy } from 'lodash';
+
 
 
 // ----------------------------------------------------------------------
@@ -30,7 +34,9 @@ import { useState } from 'react';
 ProfileCover.propTypes = {
 };
 
-function ProfileCover({ }) {
+function ProfileCover({ person }) {
+  const { name, team, role } = person;
+
   return (
     <Box
       sx={{
@@ -40,15 +46,24 @@ function ProfileCover({ }) {
       }}
     >
       <Stack>
-        <Typography variant="h4">{"Michael Seid"}</Typography>
-        <Typography sx={{ opacity: 0.72 }}>{"MLUX"}</Typography>
+        <Typography variant="h4">{name}</Typography>
+        <Typography sx={{ opacity: 0.72 }}>{`${role} @ ${team}`}</Typography>
       </Stack>
     </Box>
 
   );
 }
 
-function AddNoteForm(){
+function AddNoteForm({onSubmit, onCancel}){
+  const [note, setNote] = useState('') 
+  const [date, setDate] = useState(new Date())
+  const submit = () => {
+    const log = {
+      note,
+      date
+    }
+    onSubmit(log)
+  }
   return (
     <Card sx={{ p: 3 }}>
       <Stack spacing={3}>
@@ -57,6 +72,8 @@ function AddNoteForm(){
           fullWidth
           rows={4}
           placeholder="Record what you are discussing"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
           sx={{
             '& fieldset': {
               borderWidth: `1px !important`,
@@ -65,7 +82,13 @@ function AddNoteForm(){
           }}
         />
 
-        <TextField label="Date" variant="outlined" type='date'/>
+        <DesktopDatePicker
+          label="Date desktop"
+          inputFormat="MM/dd/yyyy"
+          value={date}
+          onChange={(newDate) => setDate(newDate)}
+          renderInput={(params) => <TextField {...params} />}
+        />
       </Stack>
 
       <Box
@@ -76,8 +99,8 @@ function AddNoteForm(){
           justifyContent: 'space-between',
         }}
       >
-        <Button variant="contained">Save</Button>
-        <Button variant="contained" color="error">Cancel</Button>
+        <Button variant="contained" onClick={submit}>Save</Button>
+        <Button variant="contained" color="error" onClick={onCancel}>Cancel</Button>
       </Box>
     </Card>
   )
@@ -86,35 +109,64 @@ function AddNoteForm(){
 export default function ViewPerson(){
   const [addNote, setAddNote] = useState(false)
 
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const person = useTracker(() => {
+    return People.findOne({_id: params.id})
+  });
+
+  const submitNote = (log) => {
+    People.update(person._id, {
+      $push: {
+        log
+      }
+    })
+    setAddNote(false)
+  }
   return (
     <Page title="People">
       <Container>
         <Stack spacing={3}>
-          <ProfileCover />
-          {!addNote?
-            <Grid container>
-              <Grid item s={3}>
-                <Button onClick={() => setAddNote(true)}>
-                  Add Note
-                </Button>
+          {person ? 
+          <>
+            <ProfileCover person={person} />
+            {!addNote?
+              <Grid container>
+                <Grid item s={3}>
+                  <Button onClick={() => setAddNote(true)}>
+                    Add Note
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
+            :
+              <AddNoteForm 
+                onSubmit={submitNote}
+                onCancel={() => setAddNote(false)}
+                />
+            }
+            <Timeline>
+              {sortBy(person.log, 'date').reverse().map((log, index) => {
+                return (
+                  <TimelineItem key={index}>
+                    <TimelineOppositeContent color="text.secondary" style={{flex: 0.1}}>
+                      {log.date.toDateString()}
+                    </TimelineOppositeContent>
+                    <TimelineSeparator>
+                      <TimelineDot />
+                      <TimelineConnector />
+                    </TimelineSeparator>
+                    <TimelineContent>{log.note}</TimelineContent>
+                  </TimelineItem>
+                )
+              })}
+            </Timeline>
+          </>
           :
-            <AddNoteForm />
+          <h6>loading....</h6>
           }
-          <Timeline>
-            <TimelineItem>
-              <TimelineOppositeContent color="text.secondary" style={{flex: 0.1}}>
-                07/29/22
-              </TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineDot />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>We ate today.</TimelineContent>
-            </TimelineItem>
-          </Timeline>
-          </Stack>
+          
+        </Stack>
       </Container>
     </Page>
   )

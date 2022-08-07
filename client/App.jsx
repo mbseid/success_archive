@@ -10,32 +10,35 @@ import PeopleList from '../imports/ui/people/list';
 import DashboardLayout from "/imports/ui/layouts/dashboard/index"
 import NewPerson from '../imports/ui/people/new';
 import ViewPerson from '../imports/ui/people/view';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 export default function App() {
 
   // <BaseOptionChartStyle />
   return (
-
-    <ThemeProvider>
-      <Routes>
-        <Route path="/" element={<DashboardLayout />}>
-          <Route path="links" element={<Links />}>
-            <Route path="new" element={<NewLink />} />
-            <Route path=":id/edit" element={<EditLink />} />
+    <LocalizationProvider dateAdapter={AdapterDateFns} >
+      <ThemeProvider>
+        <Routes>
+          <Route path="/" element={<DashboardLayout />}>
+            <Route path="links" element={<Links />}>
+              <Route path="new" element={<NewLink />} />
+              <Route path=":id/edit" element={<EditLink />} />
+              <Route
+                index
+                element={<LinkList />} />
+            </Route>
+            <Route path="people">
+              <Route path="new" element={<NewPerson />} />
+              <Route path=":id" element={<ViewPerson />} />
+              <Route index element={<PeopleList />} />
+            </Route>
             <Route
-              index
-              element={<LinkList />} />
+                index
+                element={<Index />} />
           </Route>
-          <Route path="people">
-            <Route path="new" element={<NewPerson />} />
-            <Route path=":id" element={<ViewPerson />} />
-            <Route index element={<PeopleList />} />
-          </Route>
-          <Route
-              index
-              element={<Index />} />
-        </Route>
-      </Routes>
-    </ThemeProvider>
+        </Routes>
+      </ThemeProvider>
+    </LocalizationProvider>
   );
 }
