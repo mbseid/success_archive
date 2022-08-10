@@ -55,7 +55,7 @@ function ProfileCover({ person }) {
 }
 
 function AddNoteForm({onSubmit, onCancel}){
-  const [note, setNote] = useState('') 
+  const [note, setNote] = useState('')
   const [date, setDate] = useState(new Date())
   const submit = () => {
     const log = {
@@ -83,7 +83,7 @@ function AddNoteForm({onSubmit, onCancel}){
         />
 
         <DesktopDatePicker
-          label="Date desktop"
+          label="Date"
           inputFormat="MM/dd/yyyy"
           value={date}
           onChange={(newDate) => setDate(newDate)}
@@ -128,7 +128,7 @@ export default function ViewPerson(){
     <Page title="People">
       <Container>
         <Stack spacing={3}>
-          {person ? 
+          {person ?
           <>
             <ProfileCover person={person} />
             {!addNote?
@@ -140,7 +140,7 @@ export default function ViewPerson(){
                 </Grid>
               </Grid>
             :
-              <AddNoteForm 
+              <AddNoteForm
                 onSubmit={submitNote}
                 onCancel={() => setAddNote(false)}
                 />
@@ -165,7 +165,7 @@ export default function ViewPerson(){
           :
           <h6>loading....</h6>
           }
-          
+
         </Stack>
       </Container>
     </Page>
