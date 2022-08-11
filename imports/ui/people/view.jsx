@@ -28,6 +28,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { sortBy } from 'lodash';
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import remarkBreaks from 'remark-breaks'
 
 
 
@@ -72,7 +73,7 @@ function AddNoteForm({onSubmit, onCancel}){
         <TextField
           multiline
           fullWidth
-          rows={4}
+          minRows={4}
           placeholder="Record what you are discussing"
           value={note}
           onChange={(e) => setNote(e.target.value)}
@@ -98,11 +99,13 @@ function AddNoteForm({onSubmit, onCancel}){
           mt: 3,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'end',
+          flexDirection: 'row-reverse',
+          columnGap: '2rem'
         }}
       >
         <Button variant="contained" onClick={submit}>Save</Button>
-        <Button variant="contained" color="error" onClick={onCancel}>Cancel</Button>
+        <Button variant="outlined" color="error" onClick={onCancel}>Cancel</Button>
       </Box>
     </Card>
   )
@@ -169,7 +172,7 @@ export default function ViewPerson(){
                     </TimelineSeparator>
                     <TimelineContent>
                       <MarkdownBox>
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
                           {log.note}
                         </ReactMarkdown>
                       </MarkdownBox>
