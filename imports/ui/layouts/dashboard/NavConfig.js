@@ -15,6 +15,12 @@ const navConfig = [
     endMatch: true
   },
   {
+    title: 'Projects',
+    path: '/projects',
+    icon: getIcon('mdi:engine'),
+    endMatch: false
+  },
+  {
     title: 'People',
     path: '/people',
     icon: getIcon('eva:people-fill'),

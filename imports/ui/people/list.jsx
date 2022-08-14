@@ -132,8 +132,6 @@ export default function PeopleList() {
         </Stack>
 
         <Card>
-
-
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

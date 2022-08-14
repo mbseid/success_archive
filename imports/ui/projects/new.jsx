@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Links } from '/imports/api/links';
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Projects } from '/imports/api/projects';
+import { useNavigate } from "react-router-dom";
 import Page from '../components/Page';
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 import ProjectForm from './ProjectForm';
 
-export const NewLink = () => {
+export const NewProject = () => {
     const navigate = useNavigate();
 
-    const handleSubmit = (link) => {
-        Links.insert(link)
-        navigate("/projects");
+    const handleSubmit = (project) => {
+      Projects.insert(project)
+      navigate("/projects");
     }
 
     return (
-      <Page title="Add Link">
+      <Page title="Craete Project">
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
@@ -22,8 +22,8 @@ export const NewLink = () => {
             </Typography>
           </Stack>
           <Grid container>
-            <LinkForm handleSubmit={handleSubmit}
-                      prefilledModel={{}} />
+            <ProjectForm handleSubmit={handleSubmit}
+                         prefilledModel={{}} />
           </Grid>
         </Container>
       </Page>

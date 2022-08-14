@@ -1,33 +1,52 @@
 import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Links } from '/imports/api/links';
+import { Projects } from '/imports/api/projects';
 import TextField from '@mui/material/TextField';
 import { Link as RouterLink } from 'react-router-dom';
-// material
-import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
-import { LinkCard, LinksSearch, LinksSort } from '../components/link';
+import Scrollbar from '../components/Scrollbar';
+import {
+  Card,
+  Box,
+  Table,
+  Stack,
+  Avatar,
+  Button,
+  Checkbox,
+  TableRow,
+  TableBody,
+  TableCell,
+  Container,
+  Typography,
+  TableSortLabel,
+  TableContainer,
+  TablePagination,
+  Link,
+} from '@mui/material';
+import TableHead from '../components/TableHead'
 
-export function LinkList(){
-  const [searchQuery, setSearchQuery] = useState('')
+// ----------------------------------------------------------------------
 
-  const links = useTracker(() => {
-    let search = {}
-    if(searchQuery != ''){
-      search = {
-        $or: [
-          {title: {$regex : new RegExp(searchQuery, "i")}},
-          {'tags': {$regex : new RegExp(searchQuery, "i")}}
-        ]
-      }
-    }
-    return Links.find(search).fetch();
-  }, [searchQuery]);
+const TABLE_HEAD = [
+  { id: 'name', label: 'Name', alignRight: false },
+  { id: 'team', label: 'Team', alignRight: false },
+  { id: '' },
+];
+
+export function ProjectList(){
+  const [orderBy, setOrderBy] = useState('name');
+  const [order, setOrder] = useState('asc');
+
+  const projects = useTracker(() => {
+    return Projects.find({complete: false}).fetch();
+  }, []);
+
+  const handleRequestSort = () => {}
 
   return (
-    <Page title="Links">
+    <Page title="Projects">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -38,16 +57,41 @@ export function LinkList(){
           </Button>
         </Stack>
 
-        <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <LinksSearch posts={links} setSearchQuery={setSearchQuery}/>
-          {/* <LinksSort options={[]} /> */}
-        </Stack>
+        <Card>
+          <Scrollbar>
+            <TableContainer sx={{ minWidth: 800 }}>
+              <Table>
+                <TableHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={TABLE_HEAD}
+                    onRequestSort={handleRequestSort}
+                  />
+                <TableBody>
+                  {projects.map((project) => {
+                    const { _id, name, due } = project;
 
-        <Grid container spacing={3}>
-          {links.map((link) => (
-            <LinkCard key={link._id} item={link} />
-          ))}
-        </Grid>
+                    return (
+                      <TableRow
+                        key={_id}
+                      >
+                        <TableCell component="th" scope="row">
+                          <Link component={RouterLink} to={`/project/${_id}`}>
+                            {name}
+                          </Link>
+                        </TableCell>
+                        <TableCell align="left">{due.toDateString()}</TableCell>
+                        <TableCell align="right">
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+        </Card>
       </Container>
     </Page>
   );

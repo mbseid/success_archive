@@ -19,6 +19,19 @@ const ProjectSchema = new SimpleSchema({
     },
     due: {
         type: Date,
+        label: 'Due',
+        optional: true
+    },
+    complete: {
+        type: Boolean,
+        label:  'Complete',
+        defaultValue: false
+    },
+    notes: {
+        type: String,
+        label: "notes",
+        optional: true,
+        uniforms: { component: LongTextField },
     }
 })
 Projects.attachSchema(ProjectSchema);

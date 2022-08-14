@@ -10,6 +10,8 @@ import PeopleList from '../imports/ui/people/list';
 import DashboardLayout from "/imports/ui/layouts/dashboard/index"
 import NewPerson from '../imports/ui/people/new';
 import ViewPerson from '../imports/ui/people/view';
+import { ProjectList } from '/imports/ui/projects/list';
+import { NewProject } from '/imports/ui/projects/new';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
@@ -32,6 +34,10 @@ export default function App() {
               <Route path="new" element={<NewPerson />} />
               <Route path=":id" element={<ViewPerson />} />
               <Route index element={<PeopleList />} />
+            </Route>
+            <Route path="projects">
+              <Route path="new" element={<NewProject />} />
+              <Route index element={<ProjectList />} />
             </Route>
             <Route
                 index
