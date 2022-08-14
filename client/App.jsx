@@ -11,6 +11,7 @@ import DashboardLayout from "/imports/ui/layouts/dashboard/index"
 import NewPerson from '../imports/ui/people/new';
 import ViewPerson from '../imports/ui/people/view';
 import { ProjectList } from '/imports/ui/projects/list';
+import ViewProject from '/imports/ui/projects/view';
 import { NewProject } from '/imports/ui/projects/new';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -37,6 +38,7 @@ export default function App() {
             </Route>
             <Route path="projects">
               <Route path="new" element={<NewProject />} />
+              <Route path=":id" element={<ViewProject />} />
               <Route index element={<ProjectList />} />
             </Route>
             <Route

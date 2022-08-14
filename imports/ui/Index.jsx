@@ -1,21 +1,24 @@
 import React from 'react';
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useTracker } from 'meteor/react-meteor-data';
 
 // @mui
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, Card, List, ListItem, ListItemText } from '@mui/material';
 // components
 import Page from './components/Page';
 import AppWidgetSummary from './dashboard/AppWidgetSummary';
+import Iconify from '/imports/ui/components/Iconify';
+
 import { Links } from '/imports/api/links';
 import { People } from '/imports/api/people';
+import { Projects } from '/imports/api/projects';
 
 export const Index = () => {
   const navigate = useNavigate()
 
   const linkCount = useTracker(() => Links.find().count(),[]);
   const peopleCount = useTracker(() => People.find().count(),[]);
-
+  const projects = useTracker(() => Projects.find({complete: false}).fetch(),[]);
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
@@ -30,6 +33,28 @@ export const Index = () => {
 
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="People" total={peopleCount} color="info" icon={'ant-design:user-outlined'} onClick={() => navigate('/people')}/>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Card sx={{
+              height: '100%'
+            }}>
+              <Typography variant="h5" gutterBottom
+                          sx={{
+                            py: 1,
+                            textAlign: 'center'
+                          }}>
+                 <Iconify icon={'mdi:engine'} /> Projects
+              </Typography>
+              <List>
+                {projects.map((project) => (
+                  <ListItem key={project._id}>
+                    <Link to={`/projects/${project._id}`}>
+                      <ListItemText>{project.name}</ListItemText>
+                    </Link>
+                  </ListItem>
+                ))}
+              </List>
+            </Card>
           </Grid>
           {/*
           <Grid item xs={12} sm={6} md={3}>

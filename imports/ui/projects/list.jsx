@@ -76,7 +76,7 @@ export function ProjectList(){
                         key={_id}
                       >
                         <TableCell component="th" scope="row">
-                          <Link component={RouterLink} to={`/project/${_id}`}>
+                          <Link component={RouterLink} to={`/projects/${_id}`}>
                             {name}
                           </Link>
                         </TableCell>
