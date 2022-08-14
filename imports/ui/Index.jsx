@@ -3,7 +3,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useTracker } from 'meteor/react-meteor-data';
 
 // @mui
-import { Grid, Container, Typography, Card, List, ListItem, ListItemText } from '@mui/material';
+import { Grid, Container, Typography, Card, List, ListItem, ListItemText, ListItemSecondaryAction } from '@mui/material';
 // components
 import Page from './components/Page';
 import AppWidgetSummary from './dashboard/AppWidgetSummary';
@@ -48,8 +48,16 @@ export const Index = () => {
               <List>
                 {projects.map((project) => (
                   <ListItem key={project._id}>
-                    <Link to={`/projects/${project._id}`}>
-                      <ListItemText>{project.name}</ListItemText>
+                    <Link to={`/projects/${project._id}`} style={{
+                      color: 'inherit',
+                      textDecoration: 'inherit'
+                    }}>
+                      <ListItemText 
+                        primary={project.name}
+                        secondary={project.due.toDateString()} />
+                      <ListItemSecondaryAction>
+                          <Iconify icon={'mdi:arrow-right-circle-outline'} />    
+                      </ListItemSecondaryAction>
                     </Link>
                   </ListItem>
                 ))}
