@@ -25,7 +25,7 @@ export default function LinksSearch({ tags, setSearchQuery }) {
     <TextField
       sx={{ width: 280 }}
       onChange={(e) => setSearchQuery(e.target.value)}
-      placeholder="Search post..."
+      placeholder="Search links..."
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
