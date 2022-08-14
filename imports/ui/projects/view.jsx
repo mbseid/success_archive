@@ -11,14 +11,11 @@ import {
   Card,
   Grid
 } from '@mui/material';
-import Timeline from '@mui/lab/Timeline';
-import TimelineItem from '@mui/lab/TimelineItem';
-import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import TimelineConnector from '@mui/lab/TimelineConnector';
-import TimelineContent from '@mui/lab/TimelineContent';
-import TimelineDot from '@mui/lab/TimelineDot';
-import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { Projects } from '/imports/api/projects'
 
 import PropTypes from 'prop-types';
@@ -39,6 +36,12 @@ ProfileCover.propTypes = {
 
 function ProfileCover({ project, completeClick }) {
   const { name, due } = project;
+  const [ completeOpen, setCompleteOpen ] = useState(false)
+
+  const completeProject = () => {
+    setCompleteOpen(false)
+    completeClick()
+  }
 
   return (
     <Box
@@ -55,7 +58,32 @@ function ProfileCover({ project, completeClick }) {
         <Typography sx={{ opacity: 0.72 }}>{`Due: ${due.toDateString()}`}</Typography>
       </Stack>
       <Box>
-          <Button variant="contained" color="success">Complete</Button>
+          <Button variant="contained" color="success"
+                  onClick={() => setCompleteOpen(true)}>
+                      Complete
+          </Button>
+          <Dialog
+                open={completeOpen}
+                onClose={() => setCompleteOpen(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Have you completed this project?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you fully done with this body of work? Once complete, this project will
+                        be hidden unless explicitly searched for. 
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setCompleteOpen(false)}>No, more work</Button>
+                    <Button onClick={completeProject} autoFocus>
+                        Woot! I'm done
+                    </Button>
+                </DialogActions>
+            </Dialog>
       </Box>
     </Box>
 
@@ -94,7 +122,15 @@ export default function ViewProject(){
         }
       })
       setEditNotes(false)
+  }
 
+  const completeProject = () => {
+    Projects.update(project._id, {
+        $set: {
+            complete: true
+        }
+    })
+    navigate('/projects')
   }
 
   return (
@@ -103,7 +139,7 @@ export default function ViewProject(){
         <Stack spacing={3}>
           {project ?
           <>
-            <ProfileCover project={project} />
+            <ProfileCover project={project} completeClick={completeProject}/>
             {!editNote?
                 <>
                     <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
