@@ -3,7 +3,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useTracker } from 'meteor/react-meteor-data';
 
 // @mui
-import { Grid, Container, Typography, Card, List, ListItem, ListItemText, ListItemSecondaryAction } from '@mui/material';
+import { Grid, Container, Typography, Card, List, ListItem, ListItemText, ListItemSecondaryAction, CardActionArea, styled } from '@mui/material';
 // components
 import Page from './components/Page';
 import AppWidgetSummary from './dashboard/AppWidgetSummary';
@@ -13,12 +13,24 @@ import { Links } from '/imports/api/links';
 import { People } from '/imports/api/people';
 import { Projects } from '/imports/api/projects';
 
+
+const UnstyledLink = styled(Link)((theme) => {
+  return {
+    color: 'inherit',
+    textDecoration: 'inherit'
+  }
+})
 export const Index = () => {
   const navigate = useNavigate()
 
-  const linkCount = useTracker(() => Links.find().count(),[]);
-  const peopleCount = useTracker(() => People.find().count(),[]);
-  const projects = useTracker(() => Projects.find({complete: false}).fetch(),[]);
+  const {linkCount, peopleCount, projects } = useTracker(() => {
+    return {
+      linkCount: Links.find().count(),
+      peopleCount: People.find().count(),
+      projects: Projects.find({complete: false}).fetch()
+    }
+  }, []);
+  
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
@@ -38,27 +50,26 @@ export const Index = () => {
             <Card sx={{
               height: '100%'
             }}>
-              <Typography variant="h5" gutterBottom
-                          sx={{
-                            py: 1,
-                            textAlign: 'center'
-                          }}>
-                 <Iconify icon={'mdi:engine'} /> Projects
-              </Typography>
+              <UnstyledLink to="/projects">
+                <Typography variant="h5" gutterBottom
+                            sx={{
+                              py: 1,
+                              textAlign: 'center'
+                            }}>
+                  <Iconify icon={'mdi:engine'} /> Projects
+                </Typography>
+              </UnstyledLink>
               <List>
                 {projects.map((project) => (
                   <ListItem key={project._id}>
-                    <Link to={`/projects/${project._id}`} style={{
-                      color: 'inherit',
-                      textDecoration: 'inherit'
-                    }}>
+                    <UnstyledLink to={`/projects/${project._id}`}>
                       <ListItemText 
                         primary={project.name}
                         secondary={project.due.toDateString()} />
                       <ListItemSecondaryAction>
                           <Iconify icon={'mdi:arrow-right-circle-outline'} />    
                       </ListItemSecondaryAction>
-                    </Link>
+                    </UnstyledLink>
                   </ListItem>
                 ))}
               </List>

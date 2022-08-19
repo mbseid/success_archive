@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Projects } from '/imports/api/projects';
+import { Me } from '/imports/api/me';
+
 import TextField from '@mui/material/TextField';
 import { Link as RouterLink } from 'react-router-dom';
 // components
@@ -25,13 +27,15 @@ import {
   TablePagination,
   Link,
 } from '@mui/material';
-import TableHead from '../components/TableHead'
+import TableHead from '../components/TableHead';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'team', label: 'Team', alignRight: false },
+  { id: 'due', label: 'Due Date', alignRight: false },
   { id: '' },
 ];
 
@@ -39,11 +43,24 @@ export function ProjectList(){
   const [orderBy, setOrderBy] = useState('name');
   const [order, setOrder] = useState('asc');
 
-  const projects = useTracker(() => {
-    return Projects.find({complete: false}).fetch();
+  const {projects, me} = useTracker(() => {
+    return {
+      projects: Projects.find({complete: false}).fetch(),
+      me: Me.findOne({})
+    }
   }, []);
 
   const handleRequestSort = () => {}
+
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+  }
+
+  
 
   return (
     <Page title="Projects">
@@ -58,39 +75,52 @@ export function ProjectList(){
         </Stack>
 
         <Card>
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <TableHead
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={TABLE_HEAD}
-                    onRequestSort={handleRequestSort}
-                  />
-                <TableBody>
-                  {projects.map((project) => {
-                    const { _id, name, due } = project;
+          <TableContainer sx={{ minWidth: 800 }}>
+            <Table>
+              <TableHead
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  onRequestSort={handleRequestSort}
+                />
+              <DragDropContext onDragEnd={this.onDragEnd}>
+                <Droppable droppableId="droppable">
+                  {(provided, snapshot) => (
+                    <TableBody
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                    {projects.map((project, index) => {
+                      const { _id, name, due } = project;
 
-                    return (
-                      <TableRow
-                        key={_id}
-                      >
-                        <TableCell component="th" scope="row">
-                          <Link component={RouterLink} to={`/projects/${_id}`}>
-                            {name}
-                          </Link>
-                        </TableCell>
-                        <TableCell align="left">{due.toDateString()}</TableCell>
-                        <TableCell align="right">
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-
-              </Table>
-            </TableContainer>
-          </Scrollbar>
+                      return (
+                        <Draggable key={_id} draggableId={_id} index={index}>
+                          {(provided, snapshot) => (
+                            <TableRow
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <TableCell component="th" scope="row">
+                                <Link component={RouterLink} to={`/projects/${_id}`}>
+                                  {name}
+                                </Link>
+                              </TableCell>
+                              <TableCell align="left">{due.toDateString()}</TableCell>
+                              <TableCell align="right">
+                              </TableCell>
+                            </TableRow>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                    </TableBody>
+                    )}
+                </Droppable>
+              </DragDropContext>
+            </Table>
+          </TableContainer>
         </Card>
       </Container>
     </Page>
