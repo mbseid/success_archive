@@ -22,13 +22,14 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { People } from '/imports/api/people'
 
 import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
 import { useNavigate, useParams } from "react-router-dom";
 import { useTracker } from 'meteor/react-meteor-data';
 import { sortBy } from 'lodash';
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
+
+import MarkdownBox from '/imports/ui/components/MarkdownBox'
 
 
 
@@ -110,15 +111,6 @@ function AddNoteForm({onSubmit, onCancel}){
     </Card>
   )
 }
-
-const MarkdownBox = styled(Box)({
-  '& ul': {
-    padding: 'revert'
-  },
-  '& li': {
-    padding: 'revert'
-  }
-});
 
 export default function ViewPerson(){
   const [addNote, setAddNote] = useState(false)

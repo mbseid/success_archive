@@ -26,6 +26,7 @@ import { sortBy } from 'lodash';
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
+import MarkdownBox from '/imports/ui/components/MarkdownBox'
 
 
 
@@ -90,15 +91,6 @@ function ProfileCover({ project, completeClick }) {
   );
 }
 
-const MarkdownBox = styled(Box)({
-  '& ul': {
-    padding: 'revert'
-  },
-  '& li': {
-    padding: 'revert'
-  }
-});
-
 export default function ViewProject(){
   const [editNote, setEditNotes] = useState(false)
   const [notes, setNotes] = useState()
@@ -141,12 +133,14 @@ export default function ViewProject(){
           <>
             <ProfileCover project={project} completeClick={completeProject}/>
             {!editNote?
-                <>
-                    <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
-                        {project.notes}
-                    </ReactMarkdown>
+                <MarkdownBox>
+                    <Box sx={{marginY: 3}}>
+                      <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+                          {project.notes}
+                      </ReactMarkdown>
+                    </Box>
                     <Button onClick={editNotes} variant="outlined">Edit</Button>
-                </>
+                </MarkdownBox>
             :
                 <>
                     <TextField

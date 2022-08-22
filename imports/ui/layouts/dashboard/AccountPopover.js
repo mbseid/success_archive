@@ -12,16 +12,6 @@ import MenuPopover from '../../components/MenuPopover';
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
-    icon: 'eva:home-fill',
-    linkTo: '/',
-  },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-    linkTo: '#',
-  },
-  {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
     linkTo: '#',
@@ -82,10 +72,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {"account.displayName"}
+            {"Mike Seid"}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {"account.email"}
+            {"MLPA"}
           </Typography>
         </Box>
 
