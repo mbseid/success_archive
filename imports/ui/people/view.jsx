@@ -44,7 +44,6 @@ function ProfileCover({ person }) {
   return (
     <Box
       sx={{
-        ml: { md: 3 },
         mt: { xs: 1, md: 0 },
         textAlign: { xs: 'center', md: 'left' },
       }}
@@ -140,7 +139,7 @@ export default function ViewPerson(){
             {!addNote?
               <Grid container>
                 <Grid item s={3}>
-                  <Button onClick={() => setAddNote(true)}>
+                  <Button variant="contained" onClick={() => setAddNote(true)}>
                     Add Note
                   </Button>
                 </Grid>

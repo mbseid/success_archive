@@ -7,5 +7,8 @@ export default MarkdownBox = styled(Box)({
     },
     '& li': {
         padding: 'revert'
+    },
+    '& p:not(:last-child)': {
+        marginBottom: '1rem'
     }
 });

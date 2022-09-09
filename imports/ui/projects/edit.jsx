@@ -15,12 +15,12 @@ export const EditProject = () => {
     const handleSubmit = (project) => {
       Projects.update(project._id, {
         $set: {
-          title: project.title,
+          name: project.name,
           description: project.description,
           due: project.due
         }
       })
-      navigate(`/projects/${link._id}`);
+      navigate(`/projects/${project._id}`);
     }
 
     return (

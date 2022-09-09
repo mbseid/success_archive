@@ -36,7 +36,7 @@ ProfileCover.propTypes = {
 };
 
 function ProfileCover({ project, completeClick, editClick }) {
-  const { name, due } = project;
+  const { name, description, due } = project;
   const [ completeOpen, setCompleteOpen ] = useState(false)
 
   const completeProject = () => {
@@ -47,7 +47,6 @@ function ProfileCover({ project, completeClick, editClick }) {
   return (
     <Box
       sx={{
-        ml: { md: 3 },
         mt: { xs: 1, md: 0 },
         textAlign: { xs: 'center', md: 'left' },
         display: 'flex',
@@ -56,7 +55,7 @@ function ProfileCover({ project, completeClick, editClick }) {
     >
       <Stack>
         <Typography variant="h4">{name}</Typography>
-        <Typography sx={{ opacity: 0.72 }}>{`Due: ${due.toDateString()}`}</Typography>
+        <Typography variant="button" sx={{ opacity: 0.72 }}>{`DUE: ${due.toDateString().toUpperCase()}`}</Typography>
       </Stack>
       <Box>
           <Button sx={{mr: 1}} variant="outlined" color="info"
