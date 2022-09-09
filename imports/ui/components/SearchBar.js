@@ -3,29 +3,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // @mui
-import { styled } from '@mui/material/styles';
-import { Autocomplete, InputAdornment, Popper, TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 // components
 import Iconify from '/imports/ui/components/Iconify';
 
 // ----------------------------------------------------------------------
 
-const PopperStyle = styled((props) => <Popper placement="bottom-start" {...props} />)({
-  width: '280px !important',
-});
-
-// ----------------------------------------------------------------------
-
-LinksSearch.propTypes = {
+SearchBar.propTypes = {
   posts: PropTypes.array.isRequired,
 };
 
-export default function LinksSearch({ tags, setSearchQuery }) {
+export default function SearchBar({ placeholder, setSearchQuery }) {
   return (
     <TextField
       sx={{ width: 280 }}
       onChange={(e) => setSearchQuery(e.target.value)}
-      placeholder="Search links..."
+      placeholder={placeholder}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

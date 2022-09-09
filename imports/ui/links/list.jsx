@@ -8,7 +8,8 @@ import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
-import { LinkCard, LinksSearch, LinksSort } from '../components/link';
+import { LinkCard, LinksSort } from '../components/link';
+import SearchBar from '../components/SearchBar';
 
 export function LinkList(){
   const [searchQuery, setSearchQuery] = useState('')
@@ -39,7 +40,7 @@ export function LinkList(){
         </Stack>
 
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <LinksSearch posts={links} setSearchQuery={setSearchQuery}/>
+          <SearchBar placeholder="Search links..." setSearchQuery={setSearchQuery}/>
           {/* <LinksSort options={[]} /> */}
         </Stack>
 

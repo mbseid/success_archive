@@ -27,13 +27,12 @@ import {
 // components
 import Page from '../components/Page';
 import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-// import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // meteor
 import { useTracker } from 'meteor/react-meteor-data';
 import { People } from '/imports/api/people';
+import SearchBar from '/imports/ui/components/SearchBar';
 
 // ----------------------------------------------------------------------
 
@@ -130,52 +129,54 @@ export default function PeopleList() {
             New Person
           </Button>
         </Stack>
+        <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+          <SearchBar placeholder="Search links..." setSearchQuery={setFilterName}/>
+          {/* <LinksSort options={[]} /> */}
+        </Stack>
 
         <Card>
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={TABLE_HEAD}
-                    onRequestSort={handleRequestSort}
-                  />
-                <TableBody>
-                  {people.map((person) => {
-                    const { _id, name, team, role } = person;
+          <TableContainer sx={{ minWidth: 800 }}>
+            <Table>
+              <UserListHead
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  onRequestSort={handleRequestSort}
+                />
+              <TableBody>
+                {people.map((person) => {
+                  const { _id, name, team, role } = person;
 
-                    return (
-                      <TableRow
-                        key={_id}
-                      >
-                        <TableCell component="th" scope="row">
-                          <Link component={RouterLink} to={`/people/${_id}`}>
-                            {name}
-                          </Link>
-                        </TableCell>
-                        <TableCell align="left">{team}</TableCell>
-                        <TableCell align="left">{role}</TableCell>
+                  return (
+                    <TableRow
+                      key={_id}
+                    >
+                      <TableCell component="th" scope="row">
+                        <Link component={RouterLink} to={`/people/${_id}`}>
+                          {name}
+                        </Link>
+                      </TableCell>
+                      <TableCell align="left">{team}</TableCell>
+                      <TableCell align="left">{role}</TableCell>
 
-                        <TableCell align="right">
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-
-                {searchQuery != '' && people.length == 0 && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={searchQuery} />
+                      <TableCell align="right">
                       </TableCell>
                     </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
+                  );
+                })}
+              </TableBody>
+
+              {searchQuery != '' && people.length == 0 && (
+                <TableBody>
+                  <TableRow>
+                    <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <SearchNotFound searchQuery={searchQuery} />
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              )}
+            </Table>
+          </TableContainer>
         </Card>
       </Container>
     </Page>
