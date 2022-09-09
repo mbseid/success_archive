@@ -35,7 +35,7 @@ import MarkdownBox from '/imports/ui/components/MarkdownBox'
 ProfileCover.propTypes = {
 };
 
-function ProfileCover({ project, completeClick }) {
+function ProfileCover({ project, completeClick, editClick }) {
   const { name, due } = project;
   const [ completeOpen, setCompleteOpen ] = useState(false)
 
@@ -59,6 +59,10 @@ function ProfileCover({ project, completeClick }) {
         <Typography sx={{ opacity: 0.72 }}>{`Due: ${due.toDateString()}`}</Typography>
       </Stack>
       <Box>
+          <Button sx={{mr: 1}} variant="outlined" color="info"
+                  onClick={editClick}>
+                      Edit
+          </Button>
           <Button variant="contained" color="success"
                   onClick={() => setCompleteOpen(true)}>
                       Complete
@@ -75,7 +79,7 @@ function ProfileCover({ project, completeClick }) {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Are you fully done with this body of work? Once complete, this project will
-                        be hidden unless explicitly searched for. 
+                        be hidden unless explicitly searched for.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -124,6 +128,9 @@ export default function ViewProject(){
     })
     navigate('/projects')
   }
+  const editProject = () => {
+    navigate(`/projects/${project._id}/edit`)
+  }
 
   return (
     <Page title="People">
@@ -131,7 +138,7 @@ export default function ViewProject(){
         <Stack spacing={3}>
           {project ?
           <>
-            <ProfileCover project={project} completeClick={completeProject}/>
+            <ProfileCover project={project} completeClick={completeProject} editClick={editProject} />
             {!editNote?
                 <MarkdownBox>
                     <Box sx={{marginY: 3}}>
@@ -139,7 +146,7 @@ export default function ViewProject(){
                           {project.notes}
                       </ReactMarkdown>
                     </Box>
-                    <Button onClick={editNotes} variant="outlined">Edit</Button>
+                    <Button onClick={editNotes} variant="outlined">Modify Notes</Button>
                 </MarkdownBox>
             :
                 <>

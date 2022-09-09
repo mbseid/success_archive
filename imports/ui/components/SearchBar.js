@@ -7,11 +7,6 @@ import { InputAdornment, TextField } from '@mui/material';
 // components
 import Iconify from '/imports/ui/components/Iconify';
 
-// ----------------------------------------------------------------------
-
-SearchBar.propTypes = {
-  posts: PropTypes.array.isRequired,
-};
 
 export default function SearchBar({ placeholder, setSearchQuery }) {
   return (

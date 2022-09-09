@@ -13,6 +13,7 @@ import ViewPerson from '../imports/ui/people/view';
 import { ProjectList } from '/imports/ui/projects/list';
 import ViewProject from '/imports/ui/projects/view';
 import { NewProject } from '/imports/ui/projects/new';
+import { EditProject } from '/imports/ui/projects/edit';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="projects">
               <Route path="new" element={<NewProject />} />
               <Route path=":id" element={<ViewProject />} />
+              <Route path=":id/edit" element={<EditProject />} />
               <Route index element={<ProjectList />} />
             </Route>
             <Route

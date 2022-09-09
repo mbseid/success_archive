@@ -3,7 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 // material
 import { styled, alpha } from '@mui/material/styles';
-import { Input, Slide, Button, IconButton, InputAdornment, ClickAwayListener } from '@mui/material';
+import { Input, Slide, Button, IconButton, InputAdornment, ClickAwayListener, Stack, Paper } from '@mui/material';
 // component
 import Iconify from '../../components/Iconify';
 
@@ -30,6 +30,9 @@ const SearchbarStyle = styled('div')(({ theme }) => ({
     height: APPBAR_DESKTOP,
     padding: theme.spacing(0, 5),
   },
+}));
+const ResultsStyle = styled('div')(({ theme }) => ({
+  marginTop: 124
 }));
 
 // ----------------------------------------------------------------------
@@ -73,6 +76,17 @@ export default function Searchbar() {
             </Button>
           </SearchbarStyle>
         </Slide>
+
+        {/*<Slide direction="down" in={isOpen} mountOnEnter unmountOnExit>
+          <ResultsStyle>
+            <Stack spacing={2} >
+              <Paper>Item 1</Paper>
+              <Paper>Item 2</Paper>
+              <Paper>Item 3</Paper>
+            </Stack>
+          </ResultsStyle>
+        </Slide> */}
+
       </div>
     </ClickAwayListener>
   );

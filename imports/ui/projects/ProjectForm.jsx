@@ -7,7 +7,7 @@ import {
   } from '@mui/material';
 import { Box } from '@mui/system';
 
-export default function ProjetForm({handleSubmit, prefilledModel}){
+export default function ProjectForm({handleSubmit, prefilledModel}){
 
     const [due, setDue] = useState(new Date())
 
@@ -31,7 +31,6 @@ export default function ProjetForm({handleSubmit, prefilledModel}){
             renderInput={(params) => <TextField {...params} />}
             />
         </Box>
-        <AutoField name="notes" />
         <ErrorsField />
         <SubmitField />
     </AutoForm>
