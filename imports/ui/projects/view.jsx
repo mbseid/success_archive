@@ -27,6 +27,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
 import MarkdownBox from '/imports/ui/components/MarkdownBox'
+import { colorCode } from './utils/colors';
 
 
 
@@ -48,9 +49,13 @@ function ProfileCover({ project, completeClick, editClick }) {
     <Box
       sx={{
         mt: { xs: 1, md: 0 },
+        p: 2,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
         textAlign: { xs: 'center', md: 'left' },
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        backgroundColor: colorCode(project)
       }}
     >
       <Stack>
@@ -138,34 +143,38 @@ export default function ViewProject(){
           {project ?
           <>
             <ProfileCover project={project} completeClick={completeProject} editClick={editProject} />
-            {!editNote?
-                <MarkdownBox>
-                    <Box sx={{marginY: 3}}>
-                      <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
-                          {project.notes}
-                      </ReactMarkdown>
-                    </Box>
-                    <Button onClick={editNotes} variant="outlined">Modify Notes</Button>
-                </MarkdownBox>
-            :
-                <>
-                    <TextField
-                        multiline
-                        fullWidth
-                        minRows={4}
-                        placeholder="Project Notes"
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                        sx={{
-                        '& fieldset': {
-                            borderWidth: `1px !important`,
-                            borderColor: (theme) => `${theme.palette.grey[500_32]} !important`,
-                        },
-                        }}
-                    />
-                    <Button onClick={saveNotes} variant="outlined">Save</Button>
-                </>
-            }
+            <Box sx={{
+              p: 2
+            }}>
+              {!editNote?
+                  <MarkdownBox>
+                      <Box sx={{marginY: 3}}>
+                        <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+                            {project.notes}
+                        </ReactMarkdown>
+                      </Box>
+                      <Button onClick={editNotes} variant="outlined">Modify Notes</Button>
+                  </MarkdownBox>
+              :
+                  <>
+                      <TextField
+                          multiline
+                          fullWidth
+                          minRows={4}
+                          placeholder="Project Notes"
+                          value={notes}
+                          onChange={(e) => setNotes(e.target.value)}
+                          sx={{
+                          '& fieldset': {
+                              borderWidth: `1px !important`,
+                              borderColor: (theme) => `${theme.palette.grey[500_32]} !important`,
+                          },
+                          }}
+                      />
+                      <Button onClick={saveNotes} variant="outlined">Save</Button>
+                  </>
+              }
+            </Box>
           </>
           :
           <h6>loading....</h6>

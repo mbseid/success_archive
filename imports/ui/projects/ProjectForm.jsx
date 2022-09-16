@@ -9,7 +9,7 @@ import { Box } from '@mui/system';
 
 export default function ProjectForm({handleSubmit, prefilledModel}){
 
-    const [due, setDue] = useState(new Date())
+    const [due, setDue] = useState(prefilledModel.due || new Date())
 
     const preSubmit = (project) => {
         project.due = due;

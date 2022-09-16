@@ -29,7 +29,7 @@ import {
 } from '@mui/material';
 import TableHead from '../components/TableHead';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import { colorCode } from './utils/colors';
 
 // ----------------------------------------------------------------------
 
@@ -60,7 +60,7 @@ export function ProjectList(){
 
   }
 
-  
+
 
   return (
     <Page title="Projects">
@@ -100,6 +100,9 @@ export function ProjectList(){
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
+                              sx={{
+                                backgroundColor: colorCode(project)
+                              }}
                             >
                               <TableCell component="th" scope="row">
                                 <Link component={RouterLink} to={`/projects/${_id}`}>
