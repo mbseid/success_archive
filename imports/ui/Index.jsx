@@ -13,6 +13,9 @@ import { Links } from '/imports/api/links';
 import { People } from '/imports/api/people';
 import { Projects } from '/imports/api/projects';
 
+import { colorCode as projectColorCode } from './projects/utils/colors';
+
+
 
 const UnstyledLink = styled(Link)((theme) => {
   return {
@@ -30,7 +33,7 @@ export const Index = () => {
       projects: Projects.find({complete: false}).fetch()
     }
   }, []);
-  
+
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
@@ -61,13 +64,16 @@ export const Index = () => {
               </UnstyledLink>
               <List>
                 {projects.map((project) => (
-                  <ListItem key={project._id}>
+                  <ListItem key={project._id}
+                            sx={{
+                              backgroundColor: projectColorCode(project)
+                            }}>
                     <UnstyledLink to={`/projects/${project._id}`}>
-                      <ListItemText 
+                      <ListItemText
                         primary={project.name}
                         secondary={project.due.toDateString()} />
                       <ListItemSecondaryAction>
-                          <Iconify icon={'mdi:arrow-right-circle-outline'} />    
+                          <Iconify icon={'mdi:arrow-right-circle-outline'} />
                       </ListItemSecondaryAction>
                     </UnstyledLink>
                   </ListItem>
