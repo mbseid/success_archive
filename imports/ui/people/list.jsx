@@ -40,6 +40,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'team', label: 'Team', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
+  { id: 'lastContact', label: 'Last Contact', alignRight: false },
   { id: '' },
 ];
 
@@ -147,6 +148,8 @@ export default function PeopleList() {
                 {people.map((person) => {
                   const { _id, name, team, role } = person;
 
+                  const chatDates = person.log.map(l => l.date).sort((a, b) => b - a);
+
                   return (
                     <TableRow
                       key={_id}
@@ -158,7 +161,7 @@ export default function PeopleList() {
                       </TableCell>
                       <TableCell align="left">{team}</TableCell>
                       <TableCell align="left">{role}</TableCell>
-
+                      <TableCell align="left">{chatDates.length > 0 && chatDates[0].toDateString()}</TableCell>
                       <TableCell align="right">
                       </TableCell>
                     </TableRow>
